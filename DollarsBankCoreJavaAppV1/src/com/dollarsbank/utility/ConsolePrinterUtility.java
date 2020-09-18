@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import java.util.List;
 
-import com.diogonunes.jcolor.*;
+//import com.diogonunes.jcolor.*;
 import com.dollarsbank.controller.DollarsBankController;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
@@ -18,35 +18,36 @@ public class ConsolePrinterUtility {
 
 	public void displayInitialMenu() {
 		
-		System.out.println(Ansi.colorize("Red text?", ColorsUtility.RED));
+//		String ansi = Ansi.generateCode(Attribute.RED_TEXT());
+//		System.err.println(Ansi.colorize("Red text?", ansi));
 	
-		System.out.println("+---------------------------\n| DOLLARSBANK Welcomes You! |\n+---------------------------\n");
-		System.out.println("Please choose a menu option below:\n");
-		System.out.println("1. Create New Account\n2. Login\n3. Exit");
+		System.err.println("+---------------------------\n| DOLLARSBANK Welcomes You! |\n+---------------------------\n");
+		System.err.println("Please choose a menu option below:\n");
+		System.err.println("1. Create New Account\n2. Login\n3. Exit");
 	}
 	
 	public void displayAccountCreation() {
-		System.out.println("+---------------------------\n| Enter Details For New Account |\n+---------------------------\n");
-		System.out.println("Customer Name:\n");
+		System.err.println("+---------------------------\n| Enter Details For New Account |\n+---------------------------\n");
+		System.err.println("Customer Name:\n");
 		String name = controller.takeInput();
 		
-		System.out.println("Customer Address:\n");
+		System.err.println("Customer Address:\n");
 		String address = controller.takeInput();
 		
-		System.out.println("Customer Phone Number:\n");
+		System.err.println("Customer Phone Number:\n");
 		String phoneNumber = controller.takeInput();
 		
-		System.out.println("User Id:\n");
+		System.err.println("User Id:\n");
 		String userId = controller.takeInput();
 		
-		System.out.println("Password (8 characters including upper, lower, and special):\n");
+		System.err.println("Password (8 characters including upper, lower, and special):\n");
 		String password = controller.takeInput();
 		
-		System.out.println("Choose an Account type:\n");
-		System.out.println("1. Checking\n2. Savings");
+		System.err.println("Choose an Account type:\n");
+		System.err.println("1. Checking\n2. Savings");
 		String accountType = controller.takeInput();
 		
-		System.out.println("Initial Deposit Amount:\n");
+		System.err.println("Initial Deposit Amount:\n");
 		String initialDeposit = controller.takeInput();
 		
 		Account newAccount = dataService.createAccount(accountType, initialDeposit);
@@ -56,18 +57,18 @@ public class ConsolePrinterUtility {
 	
 	public void displayCustomerLogin() {
 		
-		System.out.println("+---------------------------\n| Enter Login Details |\n+---------------------------\n");
-		System.out.println("User Id:\n");
+		System.err.println("+---------------------------\n| Enter Login Details |\n+---------------------------\n");
+		System.err.println("User Id:\n");
 		String userId = controller.takeInput();
 		
-		System.out.println("Password:\n");
+		System.err.println("Password:\n");
 		String password = controller.takeInput();
 		
 		if(dataService.verifyLogin(userId, password)){
 			dataService.logIn(userId);
 			displayWelcomeCustomerMenu();
 		}else {
-			System.out.println("Invalid login");
+			System.err.println("Invalid login");
 			displayExitScreen();
 			controller.closeConnection();
 		}
@@ -76,18 +77,18 @@ public class ConsolePrinterUtility {
 	
 	public void displayExitScreen() {
 		
-		System.out.println("Thank you for using DOLLARSBANK. Have a good day.");
+		System.err.println("Thank you for using DOLLARSBANK. Have a good day.");
 	}
 	
 	public void displayInvalidChoice() {
-		System.out.println("Invalid menu option");
+		System.err.println("Invalid menu option");
 	}
 	
 	public void displayWelcomeCustomerMenu() {
 		
-		System.out.println("+---------------------------\n| WELCOME Customer! |\n+---------------------------\n");
-		System.out.println("How can we help you today?\n");
-		System.out.println("1. Deposit Amount\n2. Withdraw Amount\n3. Funds Transfer\n"
+		System.err.println("+---------------------------\n| WELCOME Customer! |\n+---------------------------\n");
+		System.err.println("How can we help you today?\n");
+		System.err.println("1. Deposit Amount\n2. Withdraw Amount\n3. Funds Transfer\n"
 				+ "4. View 5 Recent Transactions\n5. Display Customer Information\n6. Logout");
 		
 		String choice = controller.takeInput();
@@ -123,11 +124,11 @@ public class ConsolePrinterUtility {
 	
 	public void displayDepositMenu() {
 		
-		System.out.println("Enter account id for deposit:\n");
+		System.err.println("Enter account id for deposit:\n");
 		displayAccounts();
 		
 		String accountId = controller.takeInput();
-		System.out.println("Enter deposit amount:\n");
+		System.err.println("Enter deposit amount:\n");
 		String depositAmt = controller.takeInput();
 		
 		Transaction deposit = dataService.makeDeposit(accountId, depositAmt);
@@ -136,11 +137,11 @@ public class ConsolePrinterUtility {
 	
 	public void displayWithdrawMenu() {
 		
-		System.out.println("Enter account id for withdraw:\n");
+		System.err.println("Enter account id for withdraw:\n");
 		displayAccounts();
 		
 		String accountId = controller.takeInput();
-		System.out.println("Enter withdraw amount:\n");
+		System.err.println("Enter withdraw amount:\n");
 		String withdrawAmt = controller.takeInput();
 		
 		Transaction withdrawl = dataService.makeWithdrawl(accountId, withdrawAmt);
@@ -150,23 +151,23 @@ public class ConsolePrinterUtility {
 	public void displayCustomerInformation() {
 		
 		Customer loggedIn = dataService.getLoggedIn();
-		System.out.println("Customer Details: " + loggedIn.toString());
+		System.err.println("Customer Details: " + loggedIn.toString());
 		System.out.print("Account Details: ");
 		displayAccounts();
 	}
 	
 	public void displayTransferMenu() {
 		
-		System.out.println("Enter account ids for transfer:\n");
+		System.err.println("Enter account ids for transfer:\n");
 		displayAccounts();
 		
-		System.out.println("Enter transfer from id: ");
+		System.err.println("Enter transfer from id: ");
 		String accountIdFrom = controller.takeInput();
 		
-		System.out.println("Enter transfer to id: ");
+		System.err.println("Enter transfer to id: ");
 		String accountIdTo = controller.takeInput();
 		
-		System.out.println("Enter transfer amount:\n");
+		System.err.println("Enter transfer amount:\n");
 		String transferAmt = controller.takeInput();
 		
 		Transaction transfer = dataService.makeTransfer(accountIdFrom, accountIdTo, transferAmt);
@@ -177,31 +178,31 @@ public class ConsolePrinterUtility {
 	public void displayAccounts() {
 		
 		HashMap<Long, Account> accounts = dataService.getCustomerAccounts();
-		accounts.forEach((key, value) -> System.out.println(key + ", " + value.getClass()));
+		accounts.forEach((key, value) -> System.err.println(key + ", " + value.getClass()));
 	}
 	
 	public void displayTransactionSummary(Transaction transaction) {
 		
-		System.out.println("Transaction Summary: " + transaction.toString());
+		System.err.println("Transaction Summary: " + transaction.toString());
 	}
 	
 	public void displayLastFiveTransactions() {
 		
-		System.out.println("Enter account id for transaction history:\n");
+		System.err.println("Enter account id for transaction history:\n");
 		displayAccounts();
 		
 		String accountId = controller.takeInput();
 		List<Transaction> lastFiveTransactions = dataService.fetchFiveLastTransactions(accountId);
 		
 		for(Transaction t : lastFiveTransactions) {
-			System.out.println(t.toString()+ "\n");
+			System.err.println(t.toString()+ "\n");
 		}
 	}
 	
 	public void determineNextInteraction() {
 		
-		System.out.println("What would you like to do next?\n");
-		System.out.println("1. Go Back to Customer Menu\n2. Exit");
+		System.err.println("What would you like to do next?\n");
+		System.err.println("1. Go Back to Customer Menu\n2. Exit");
 		String choice = controller.takeInput();
 		if(choice.contentEquals("1")) {
 			displayWelcomeCustomerMenu();
