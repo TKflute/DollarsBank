@@ -22,7 +22,6 @@ public class DollarsBankController {
 		switch(choice) {
 		case "1":
 			consolePrinter.displayAccountCreation();
-			consolePrinter.displayCustomerLogin();
 			//determineNextInteraction();
 			break;
 		case "2":
@@ -39,7 +38,6 @@ public class DollarsBankController {
 			break;
 		}
 		
-		// TODO: handle invalid input/put in while loop, etc.
 	}
 	
 	public String takeInput() {

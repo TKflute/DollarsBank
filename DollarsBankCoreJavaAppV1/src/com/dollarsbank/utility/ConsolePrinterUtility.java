@@ -52,6 +52,7 @@ public class ConsolePrinterUtility {
 		
 		Account newAccount = dataService.createAccount(accountType, initialDeposit);
 		dataService.addCustomer(new Customer(name, address, phoneNumber, userId, password, newAccount));
+		displayCustomerLogin();
 		// TODO: write to file?
 	}
 	
@@ -89,7 +90,7 @@ public class ConsolePrinterUtility {
 		System.err.println("+---------------------------\n| WELCOME Customer! |\n+---------------------------\n");
 		System.err.println("How can we help you today?\n");
 		System.err.println("1. Deposit Amount\n2. Withdraw Amount\n3. Funds Transfer\n"
-				+ "4. View 5 Recent Transactions\n5. Display Customer Information\n6. Logout");
+				+ "4. View 5 Recent Transactions\n5. Add Another Account\n6. Display Customer Information\n7. Logout");
 		
 		String choice = controller.takeInput();
 		
@@ -111,10 +112,14 @@ public class ConsolePrinterUtility {
 			determineNextInteraction();
 			break;
 		case "5":
-			displayCustomerInformation();
+			displayAddAnAccount();
 			determineNextInteraction();
 			break;
 		case "6":
+			displayCustomerInformation();
+			determineNextInteraction();
+			break;
+		case "7":
 			dataService.logOut();
 			displayExitScreen();
 			controller.closeConnection();
@@ -148,55 +153,71 @@ public class ConsolePrinterUtility {
 		displayTransactionSummary(withdrawl);
 	}
 	
+	public void displayTransferMenu() {
+
+		System.err.println("Enter account ids for transfer:\n");
+		displayAccounts();
+
+		System.err.println("Enter transfer from id: ");
+		String accountIdFrom = controller.takeInput();
+
+		System.err.println("Enter transfer to id: ");
+		String accountIdTo = controller.takeInput();
+
+		System.err.println("Enter transfer amount:\n");
+		String transferAmt = controller.takeInput();
+
+		Transaction transfer = dataService.makeTransfer(accountIdFrom, accountIdTo, transferAmt);
+		displayTransactionSummary(transfer);
+
+	}
+	
+	public void displayLastFiveTransactions() {
+
+		System.err.println("Enter account id for transaction history:\n");
+		displayAccounts();
+
+		String accountId = controller.takeInput();
+		List<Transaction> lastFiveTransactions = dataService.fetchFiveLastTransactions(accountId);
+
+		for (Transaction t : lastFiveTransactions) {
+			System.err.println(t.toString() + "\n");
+		}
+	}
+	
+	public void displayAddAnAccount() {
+		
+		System.err.println("Choose an Account type:\n");
+		System.err.println("1. Checking\n2. Savings");
+		String accountType = controller.takeInput();
+		
+		System.err.println("Initial Deposit Amount:\n");
+		String initialDeposit = controller.takeInput();
+		
+		Account newAccount = dataService.createAccount(accountType, initialDeposit);
+		dataService.getCustomerAccounts().put(newAccount.getId(), newAccount);
+		
+	}
+	
 	public void displayCustomerInformation() {
 		
 		Customer loggedIn = dataService.getLoggedIn();
-		System.err.println("Customer Details: " + loggedIn.toString());
-		System.out.print("Account Details: ");
+		System.err.println("Customer Details:\n\t" + loggedIn.toString());
+		System.err.print("Account Details:\n\t");
 		displayAccounts();
 	}
 	
-	public void displayTransferMenu() {
-		
-		System.err.println("Enter account ids for transfer:\n");
-		displayAccounts();
-		
-		System.err.println("Enter transfer from id: ");
-		String accountIdFrom = controller.takeInput();
-		
-		System.err.println("Enter transfer to id: ");
-		String accountIdTo = controller.takeInput();
-		
-		System.err.println("Enter transfer amount:\n");
-		String transferAmt = controller.takeInput();
-		
-		Transaction transfer = dataService.makeTransfer(accountIdFrom, accountIdTo, transferAmt);
-		displayTransactionSummary(transfer);
-		
-	}
+	
 	
 	public void displayAccounts() {
 		
 		HashMap<Long, Account> accounts = dataService.getCustomerAccounts();
-		accounts.forEach((key, value) -> System.err.println(key + ", " + value.getClass()));
+		accounts.forEach((key, value) -> System.err.println(key + ", " + value.getClass().getSimpleName()));
 	}
 	
 	public void displayTransactionSummary(Transaction transaction) {
 		
 		System.err.println("Transaction Summary: " + transaction.toString());
-	}
-	
-	public void displayLastFiveTransactions() {
-		
-		System.err.println("Enter account id for transaction history:\n");
-		displayAccounts();
-		
-		String accountId = controller.takeInput();
-		List<Transaction> lastFiveTransactions = dataService.fetchFiveLastTransactions(accountId);
-		
-		for(Transaction t : lastFiveTransactions) {
-			System.err.println(t.toString()+ "\n");
-		}
 	}
 	
 	public void determineNextInteraction() {

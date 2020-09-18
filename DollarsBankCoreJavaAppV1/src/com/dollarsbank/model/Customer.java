@@ -75,8 +75,9 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Customer [name=" + name + ", address=" + address + ", phoneNumber="
-				+ phoneNumber + ", userId=" + userId + ", password=" + password + ", accounts=" + accounts + "]";
+		return String.format("Name: %s Address: %s Phone Number %s\n\t"
+				+ "User Id: %s Password: %s Accounts: %s", name, address,
+				phoneNumber, userId, password, accounts);
 	}
 	
 	
