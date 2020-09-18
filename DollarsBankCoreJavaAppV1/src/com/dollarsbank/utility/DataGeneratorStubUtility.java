@@ -61,9 +61,24 @@ public class DataGeneratorStubUtility {
 	
 	public Transaction makeDeposit(String accountId, String depositAmt) {
 		
+		Double amount = 0.0;
+		try{
+			amount = Double.parseDouble(depositAmt);
+			if(amount <= 0) {
+				throw new IllegalArgumentException();
+			}
+		}catch(NumberFormatException e) {
+			
+			System.out.println("Illegal deposit amount");
+		}catch(IllegalArgumentException e) {
+			
+			System.out.println("Deposit amount must be greater than 0");
+		}
+		
 		Account account = getAccount(accountId);
 		Double startingBalance = account.getBalance();
-		Double endingBalance = startingBalance + Double.parseDouble(depositAmt);
+		
+		Double endingBalance = startingBalance + amount;
 		account.setBalance(endingBalance);
 		
 		Transaction deposit = new Transaction("Deposit", new Date(), startingBalance, endingBalance);
@@ -74,9 +89,27 @@ public class DataGeneratorStubUtility {
 
 	public Transaction makeWithdrawl(String accountId, String withdrawAmt) {
 		
+		Double amount = 0.0;
+		try{
+			amount = Double.parseDouble(withdrawAmt);
+			if(amount <= 0) {
+				throw new IllegalArgumentException();
+			}
+		}catch(NumberFormatException e) {
+			
+			System.out.println("Illegal deposit amount");
+		}catch(IllegalArgumentException e) {
+			
+			System.out.println("Deposit amount must be greater than 0");
+		}
+		
 		Account account = getAccount(accountId);
 		Double startingBalance = account.getBalance();
-		Double endingBalance = startingBalance - Double.parseDouble(withdrawAmt);
+		if(amount > startingBalance) {
+			throw new IllegalArgumentException("Withdraw amount cannot exceed account balance");
+		}
+		
+		Double endingBalance = startingBalance - amount;
 		account.setBalance(endingBalance);
 		
 		Transaction withdrawl = new Transaction("Withdrawl", new Date(), startingBalance, endingBalance);
@@ -90,10 +123,15 @@ public class DataGeneratorStubUtility {
 		Account accountFrom = getAccount(accountIdFrom);
 		Account accountTo = getAccount(accountIdTo);
 		
-		accountFrom.setBalance(accountFrom.getBalance() - Double.parseDouble(transferAmt));
+		Double amount = Double.parseDouble(transferAmt);
+		if(amount <= 0 || amount > accountFrom.getBalance()) {
+			throw new IllegalArgumentException("Illegal transfer amount. Must be positive value and less than starting account balance.");
+		}
+		
+		accountFrom.setBalance(accountFrom.getBalance() - amount);
 		
 		Double startingBalance = accountTo.getBalance();
-		Double endingBalance = startingBalance + Double.parseDouble(transferAmt);
+		Double endingBalance = startingBalance + amount;
 		accountTo.setBalance(endingBalance);
 		
 		Transaction transfer = new Transaction("Transfer", new Date(), startingBalance, endingBalance);
