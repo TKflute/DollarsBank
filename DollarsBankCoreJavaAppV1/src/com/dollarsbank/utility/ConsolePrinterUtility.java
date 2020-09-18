@@ -1,8 +1,10 @@
 package com.dollarsbank.utility;
 
 import java.util.HashMap;
+
 import java.util.List;
 
+import com.diogonunes.jcolor.*;
 import com.dollarsbank.controller.DollarsBankController;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
@@ -13,8 +15,11 @@ public class ConsolePrinterUtility {
 	// methods for displaying console menu
 	DollarsBankController controller = new DollarsBankController();
 	DataGeneratorStubUtility dataService = new DataGeneratorStubUtility();
-	
+
 	public void displayInitialMenu() {
+		
+		System.out.println(Ansi.colorize("Red text?", ColorsUtility.RED));
+	
 		System.out.println("+---------------------------\n| DOLLARSBANK Welcomes You! |\n+---------------------------\n");
 		System.out.println("Please choose a menu option below:\n");
 		System.out.println("1. Create New Account\n2. Login\n3. Exit");

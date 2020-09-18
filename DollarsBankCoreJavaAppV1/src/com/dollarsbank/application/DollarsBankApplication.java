@@ -1,7 +1,5 @@
 package com.dollarsbank.application;
 
-import java.util.Scanner;
-
 import com.dollarsbank.controller.DollarsBankController;
 
 public class DollarsBankApplication {
